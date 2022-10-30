@@ -2,6 +2,28 @@
 
 используемый датасет - https://www.kaggle.com/datasets/cherngs/heart-disease-cleveland-uci
 
+В `prepare_data.py` находится скрипт для предобработки данных. Категориальные признаки прогоняются через OneHotEncoder,
+количественные - через StandardScaler.
+
+Решили использовать DecisionTreeClassifier, датасет маленький, что-то сложное тут будет проблемно обучить.
+
+В качестве метрики используем F1_score.
+
+Конфиг для обучения - `train.yaml` - содержит путь с пребобработанными данными, путь, куда должна быть загружена итоговая модель, а также доля тестовых данных в train-test сплите.
+
+## Как использовать:
+```shell
+cd src
+# готовим данные для обучения
+python3 prepare_data.py --config ../configs/preprocess.yaml
+# обучаем модель и дампим в .pkl
+python3 train_model.py --config ../configs/train.yaml
+# готовим данные, чтобы потом предсказать по ним таргеты
+python3 prepare_data.py --config ../configs/preprocess_test.yaml
+# предсказываем, результаты записываем в файлик
+python3 predict.py --config ../configs/predict.yaml
+```
+
 ## Самооценка
 
 0) В описании к пулл реквесту описаны основные "архитектурные" и тактические решения, которые сделаны в вашей работе. (1 балл)

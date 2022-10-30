@@ -27,12 +27,7 @@ def preprocess(config):
     log.info("raw_data_path = %s, output_path = %s", raw_data_path, output_path)
 
     df = pd.read_csv(raw_data_path)
-    all_columns = set(df.columns)
-    target_column = config_yaml['target']
-    target_set = set()
-    target_set.add(target_column)
-    X = df[list(all_columns - target_set)]
-    y = df[[target_column]]
+
     categorical_features = config_yaml['categorical_features']
     quantitative_features = config_yaml['quantitative_features']
 
@@ -43,10 +38,10 @@ def preprocess(config):
         ("Standardize", StandardScaler(), quantitative_features)
     ], remainder='passthrough')
 
-    data_transformed = ct.fit_transform(X, y)
+    data_transformed = ct.fit_transform(df)
     log.info("Data transformed")
     df = pd.DataFrame(data_transformed)
-    df.to_csv(output_path)
+    df.to_csv(output_path, index=False)
     log.info("Data successfully loaded to %s", output_path)
 
 
