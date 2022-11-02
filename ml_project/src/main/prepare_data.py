@@ -1,19 +1,18 @@
-from typing import Type, Any, TextIO
+from typing import TextIO
 
 import click
 import pandas as pd
 import yaml
 from logging import getLogger
 
-from typing.io import IO
 from yaml.loader import SafeLoader
 import logging.config
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
-from basic_logging import log_conf
+from .basic_logging import log_conf
 from marshmallow_dataclass import class_schema
-from configs import PreprocessConfig
+from .configs import PreprocessConfig
 
 logging.config.dictConfig(log_conf)
 
@@ -26,7 +25,11 @@ def strict_load_yaml(yaml_config: TextIO) -> PreprocessConfig:
 
 
 @click.command()
-@click.option('--config', default='../configs/preprocess.yaml', help='YAML with input and output paths.')
+@click.option(
+    '--config',
+    default='../configs/preprocess.yaml',
+    help='YAML with input and output paths.'
+)
 def preprocess(config):
     """Simple program that greets NAME for a total of COUNT times."""
     log.info("Preparing data")
@@ -34,7 +37,10 @@ def preprocess(config):
         config_yaml = strict_load_yaml(stream)
     raw_data_path = config_yaml.raw_data_path
     output_path = config_yaml.output_path
-    log.info("raw_data_path = %s, output_path = %s", raw_data_path, output_path)
+    log.info(
+        "raw_data_path = %s, output_path = %s",
+        raw_data_path, output_path
+    )
 
     df = pd.read_csv(raw_data_path)
 

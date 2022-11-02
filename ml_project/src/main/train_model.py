@@ -7,17 +7,15 @@ import yaml
 from logging import getLogger
 
 from marshmallow_dataclass import class_schema
-from sklearn.ensemble import RandomForestClassifier
 from yaml.loader import SafeLoader
 import logging.config
 
-from basic_logging import log_conf
+from .basic_logging import log_conf
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression, LogisticRegressionCV
 from sklearn.metrics import f1_score
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import GridSearchCV
-from configs import TrainConfig
+from .configs import TrainConfig
 
 logging.config.dictConfig(log_conf)
 
@@ -30,7 +28,11 @@ def strict_load_yaml(yaml_config: TextIO) -> TrainConfig:
 
 
 @click.command()
-@click.option('--config', default='../configs/train.yaml', help='YAML with train config.')
+@click.option(
+    '--config',
+    default='../configs/train.yaml',
+    help='YAML with train config.'
+)
 def train(config):
     log.info("Training model")
     with open(config, 'r') as stream:
@@ -71,6 +73,8 @@ def train(config):
     log.info("Dumping model to %s", output_path)
     with open(output_path, "wb") as f:
         pickle.dump(model, f)
+
+    return f1
 
 
 if __name__ == '__main__':

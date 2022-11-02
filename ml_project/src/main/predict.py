@@ -8,8 +8,8 @@ from marshmallow_dataclass import class_schema
 from yaml import SafeLoader
 from logging import getLogger
 from typing import TextIO
-from basic_logging import log_conf
-from configs import PredictConfig
+from .basic_logging import log_conf
+from .configs import PredictConfig
 
 logging.config.dictConfig(log_conf)
 
@@ -22,7 +22,11 @@ def strict_load_yaml(yaml_config: TextIO) -> PredictConfig:
 
 
 @click.command()
-@click.option('--config', default='../configs/predict.yaml', help='YAML with dumped model and output path.')
+@click.option(
+    '--config',
+    default='../configs/predict.yaml',
+    help='YAML with dumped model and output path.'
+)
 def predict(config):
     with open(config, 'r') as stream:
         config_yaml = strict_load_yaml(stream)

@@ -13,7 +13,7 @@
 
 ## Как использовать:
 ```shell
-cd src
+cd main
 # готовим данные для обучения
 python3 prepare_data.py --config ../configs/preprocess.yaml
 # обучаем модель и дампим в .pkl
