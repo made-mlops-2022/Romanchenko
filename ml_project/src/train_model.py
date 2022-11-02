@@ -1,11 +1,12 @@
 import pickle
+from typing import TextIO
 
 import click
 import pandas as pd
 import yaml
-import logging
 from logging import getLogger
 
+from marshmallow_dataclass import class_schema
 from sklearn.ensemble import RandomForestClassifier
 from yaml.loader import SafeLoader
 import logging.config
@@ -16,10 +17,16 @@ from sklearn.linear_model import LogisticRegression, LogisticRegressionCV
 from sklearn.metrics import f1_score
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import GridSearchCV
+from configs import TrainConfig
 
 logging.config.dictConfig(log_conf)
 
 log = getLogger()
+
+
+def strict_load_yaml(yaml_config: TextIO) -> TrainConfig:
+    schema = class_schema(TrainConfig)
+    return schema().load(yaml.load(yaml_config, Loader=SafeLoader))
 
 
 @click.command()
@@ -27,12 +34,12 @@ log = getLogger()
 def train(config):
     log.info("Training model")
     with open(config, 'r') as stream:
-        config_yaml = yaml.load(stream, SafeLoader)
-    data_path = config_yaml['data_path']
+        config_yaml = strict_load_yaml(stream)
+    data_path = config_yaml.data_path
     df = pd.read_csv(data_path)
     X, y = df.iloc[:, :-1], df[df.columns[-1]]
 
-    test_ratio = float(config_yaml['test_ratio'])
+    test_ratio = float(config_yaml.test_ratio)
     log.info("Splitting data into test and train with ratio %s", test_ratio)
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=test_ratio, stratify=y, random_state=1338
@@ -60,7 +67,7 @@ def train(config):
     f1 = f1_score(y_test, predictions)
     log.info("F1 score on test is %s", f1)
 
-    output_path = config_yaml["output_path"]
+    output_path = config_yaml.output_path
     log.info("Dumping model to %s", output_path)
     with open(output_path, "wb") as f:
         pickle.dump(model, f)
