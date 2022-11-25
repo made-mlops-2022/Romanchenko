@@ -1,0 +1,6 @@
+data_path:
+  '../data/processed/heart_cleveland_upload.csv'
+output_path:
+  '../models/model_v2.pkl'
+test_ratio:
+  '0.4'
