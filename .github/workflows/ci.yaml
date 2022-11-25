@@ -1,0 +1,33 @@
+name: MLOPS CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+
+    - name: pip install
+      run: |
+        cd ml_project
+        python -m pip install pip
+        pip install -r requirements.txt
+
+    - name: RUn linter
+      run: |
+        cd ml_project/src
+        flake8
+
+    - name: Run tests
+      run: |
+        cd ml_project/src/test
+        pytest

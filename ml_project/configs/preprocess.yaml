@@ -1,0 +1,20 @@
+raw_data_path:
+  '../data/raw/heart_cleveland_upload.csv'
+output_path:
+  '../data/processed/heart_cleveland_upload.csv'
+output_path_preparation:
+  '../models/preparation.pkl'
+target:
+  'condition'
+quantitative_features:
+  - 'age'
+  - 'trestbps'
+  - 'chol'
+  - 'thalach'
+  - 'oldpeak'
+  - 'ca'
+categorical_features:
+  - 'cp'
+  - 'restecg'
+  - 'slope'
+  - 'thal'

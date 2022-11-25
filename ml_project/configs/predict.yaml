@@ -1,0 +1,6 @@
+model_path:
+  '../models/model_v1.pkl'
+output_path:
+  '../data/predictions/model_v1.csv'
+input_data_path:
+  '../data/processed/heart_cleveland_test.csv'
