@@ -12,7 +12,7 @@ from .models import InputData
 
 MODEL_PATH = os.getenv("MODEL_PATH", 'models/model.pkl')
 PREPARATION_PATH = os.getenv("PREPARATION_PATH", 'models/prepare.pkl')
-USE_S3 = os.getenv("USE_S3", default=False)
+USE_S3 = (os.getenv("USE_S3", default='False') == 'True')
 
 model = None
 model_ready = False
@@ -24,7 +24,9 @@ log = logging.getLogger()
 
 
 def load_model():
-    log.info('load model called')
+    log.info('load model called, use_s3=%s', USE_S3)
+    log.info(MODEL_PATH)
+    log.info(PREPARATION_PATH)
     global model
     global model_ready
     global preparation
