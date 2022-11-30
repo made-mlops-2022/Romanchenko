@@ -1,5 +1,8 @@
+import json
+
 import click
 import pandas as pd
+import requests as r
 
 
 @click.command()
@@ -14,7 +17,14 @@ import pandas as pd
     help='Number of requests '
 )
 def shoot(address, n):
-    all_queries = pd.read_csv('sample_queries.csv')
+    print("Shoooot")
+    n = int(n)
+    all_queries = pd.read_csv('sample_queries.csv').to_dict('records')
     for i in range(n):
-        q = all_queries.iloc[i]
-        q[""]
+        q = all_queries[i % len(all_queries)]
+        response = r.post(address + "/predict", data=json.dumps(q))
+        print(f'Result status code: {response.status_code}, prediction: {response.json()["prediction"]}')
+
+
+if __name__ == '__main__':
+    shoot()
