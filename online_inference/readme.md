@@ -1,3 +1,19 @@
+## Как запускать
+```shell
+# запускаться из online_inference
+docker build . -t my_name/my_tag
+docker run -p 80:80 my_name/my_tag
+```
+
+Как запустить скрипт, пуляющий запросы (делать после запуска сервиса):
+```shell
+python3 make_queries.py -n 10
+```
+
+Запаблишенный образ
+
+https://hub.docker.com/repository/docker/apollin/online-inference
+
 ## Самооценка:
 ### Основная часть:
 
