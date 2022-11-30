@@ -8,7 +8,7 @@ import requests as r
 @click.command()
 @click.option(
     '--address',
-    default='127.0.0.1:80',
+    default='http://127.0.0.1:80',
     help='Address of the service.'
 )
 @click.option(

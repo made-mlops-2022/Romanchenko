@@ -39,20 +39,22 @@ def load_model():
         s3.download_file('mlops-bucket', 'model_v1.pkl', MODEL_PATH)
     with open(MODEL_PATH, 'rb') as f_model:
         model = pickle.load(f_model)
+        log.info('Loaded model')
     if USE_S3:
         s3.download_file('mlops-bucket', 'preparation.pkl', PREPARATION_PATH)
     with open(PREPARATION_PATH, 'rb') as f_model:
         preparation = pickle.load(f_model)
         model_ready = True
+        log.info("Loaded preparation")
     log.info('MODEL_READY: %s', model_ready)
 
 
 def make_prediction(input: InputData):
     log.info("make_prediction executed")
     data = pd.DataFrame(input.__dict__, index=[0])
-    log.info(data)
+    log.info('Data loaded:\n%s', data)
     data_transformed = preparation.transform(data)
-    log.info(data_transformed)
+    log.info('Data transformed:\n%s', data_transformed)
     y = model.predict(data_transformed)
     return y
 
