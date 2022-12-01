@@ -15,6 +15,7 @@ python3 make_queries.py -n 10
 https://hub.docker.com/repository/docker/apollin/online-inference
 
 ## Самооценка:
+TOTAL: 19 
 ### Основная часть:
 
 1. [+] Оберните inference вашей модели в rest сервис на FastAPI, должен быть endpoint /predict (3 балла)
