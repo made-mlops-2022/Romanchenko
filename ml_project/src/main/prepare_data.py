@@ -11,6 +11,7 @@ import logging.config
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
+
 from basic_logging import log_conf
 from marshmallow_dataclass import class_schema
 from configs import PreprocessConfig
@@ -40,6 +41,7 @@ def preprocess(config):
     output_path = config_yaml.output_path
     output_path_preparation = config_yaml.output_path_preparation
     input_path_preparation = config_yaml.input_path_preparation
+
     log.info(
         "raw_data_path = %s, output_path = %s",
         raw_data_path, output_path
@@ -52,6 +54,7 @@ def preprocess(config):
 
     log.info("Apply one-hot encoding to %s", categorical_features)
     log.info("Apply StandardScaler to %s", quantitative_features)
+
     if input_path_preparation is not None:
         with open(input_path_preparation, 'rb') as ct_file:
             ct = pickle.load(ct_file)
@@ -78,6 +81,7 @@ def preprocess(config):
         ct.fit_transform(df)
         with open(output_path_preparation, "wb") as f:
             pickle.dump(ct, f)
+
 
 
 if __name__ == '__main__':
