@@ -1,7 +1,10 @@
 raw_data_path:
-  '../data/raw/heart_cleveland_test.csv'
+  '../../data/raw/heart_cleveland_test.csv'
 output_path:
   '../data/processed/heart_cleveland_test.csv'
+input_path_preparation:
+  '../models/preparation.pkl'
+
 target:
   'condition'
 quantitative_features:

@@ -9,20 +9,20 @@
 
 В качестве метрики используем F1_score.
 
-Конфиг для обучения - `train.yaml` - содержит путь с пребобработанными данными, путь, куда должна быть загружена итоговая модель, а также доля тестовых данных в train-test сплите.
+
+Конфиг для обучения - `train.yaml` - содержит путь с предобработанными данными, путь, куда должна быть загружена итоговая модель, а также доля тестовых данных в train-test сплите.
 
 ## Как использовать:
 ```shell
-cd main
+cd src
 # готовим данные для обучения
-python3 prepare_data.py --config ../configs/preprocess.yaml
+python3 main/prepare_data.py --config ../configs/preprocess.yaml
 # обучаем модель и дампим в .pkl
-python3 train_model.py --config ../configs/train.yaml
+python3 main/train_model.py --config ../configs/train.yaml
 # готовим данные, чтобы потом предсказать по ним таргеты
-python3 prepare_data.py --config ../configs/preprocess_test.yaml
+python3 main/prepare_data.py --config ../configs/preprocess_test.yaml
 # предсказываем, результаты записываем в файлик
-python3 predict.py --config ../configs/predict.yaml
-```
+python3 main/predict.py --config ../configs/predict.yaml
 
 ## Самооценка
 TOTAL: 25
